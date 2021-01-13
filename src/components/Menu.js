@@ -1,6 +1,28 @@
 import React, { Component } from 'react';
 import { Route, Link} from 'react-router-dom';
 
+const listMenu = [
+    {
+        label : 'Home',
+        to : '/',
+        exact : true
+    },
+    {
+        label : 'About',
+        to : '/about',
+        exact : false
+    },
+    {
+        label : 'Contact',
+        to : '/contact',
+        exact : false
+    },
+    {
+        label : 'Product',
+        to : '/product',
+        exact : false
+    }
+];
 const CustomLink = ({label, to, activeOnlyWhenExact}) => {
     return (
         <Route path={to} exact={activeOnlyWhenExact} children={
@@ -19,13 +41,24 @@ const CustomLink = ({label, to, activeOnlyWhenExact}) => {
 }
 
 class Menu extends Component {
+    showMenu = (listMenu) => {
+        let result = null;
+        if(listMenu.length > 0) {
+            result = listMenu.map((menu, index) => {
+                return <CustomLink 
+                    key={index}
+                    label={menu.label} 
+                    to={menu.to} 
+                    activeOnlyWhenExact={menu.exact} />
+            });
+        }
+        return result;
+    }
     render() {
         return (
             <nav className="navbar navbar-default">
                 <ul className="nav navbar-nav">
-                    <CustomLink label="Home" to="/" activeOnlyWhenExact={true}  />
-                    <CustomLink label="About" to="/about" activeOnlyWhenExact={false}  />
-                    <CustomLink label="Contact" to="/contact" activeOnlyWhenExact={false}  />
+                    {this.showMenu(listMenu)}
                 </ul>
             </nav>
         );
