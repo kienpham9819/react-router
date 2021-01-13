@@ -6,8 +6,22 @@ import About from './components/About';
 import Contact from './components/Contact';
 import NotFound from './components/NotFound';
 import Menu from './components/Menu';
+import routes from './components/Route';
 
 class App extends Component {
+    showContent = (routes) => {
+        let result = "";
+        if(routes.length > 0) {
+            result = routes.map((route) => {
+                return (
+                    <Route path={route.path} exact={route.exact} component={route.main} />
+                );
+            });
+        }
+        
+        return result;  
+    }
+
     render() {
         return (
             <Router>
@@ -16,10 +30,7 @@ class App extends Component {
                     <Menu />
                 {/* Content */}
                 <Switch>
-                    <Route path='/' exact component={Home} />
-                    <Route path='/about' component={About} />
-                    <Route path='/contact' component={Contact} />
-                    <Route component={NotFound} />
+                    {this.showContent(routes)}
                 </Switch>
             </div>
             </Router>
